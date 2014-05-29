@@ -14,8 +14,10 @@ class MoviesController < ApplicationController
     identify_ratings
     if params.include?(:sort)
       @movies = Movie.order(params[:sort])
+      session[:sort] = params[:sort]
     elsif params.include?(:ratings)
       @movies = Movie.find_all_by_rating(params[:ratings].keys)
+      session[:ratings] = params[:ratings] 
     else
       @movies = Movie.all
     end 
