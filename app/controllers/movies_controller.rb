@@ -6,16 +6,18 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def ratings
+  def identify_ratings
     @all_ratings = Movie.pluck(:rating).uniq.sort
   end
 
   def index
-    ratings
+    identify_ratings
     if params.include?(:sort)
       @movies = Movie.order(params[:sort])
+    elsif params.include?(:ratings)
+      @movies = Movie.find_all_by_rating(params[:ratings].keys)
     else
-      @movies = Movie.all 
+      @movies = Movie.all
     end 
   end
 
